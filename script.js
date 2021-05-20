@@ -16,7 +16,6 @@ function updateHtmlTable() {
             <td>${todo.description}</td>
             <td>
                 <div class="delete btn btn-danger" onclick="deleteEntry(${todo.id});">delete</div>
-                <div class="delete btn btn-danger" onclick="deleteEntry(${todo.id});">delete</div>
             </td>
         </tr>`;
         // 5 - merge generated table
@@ -37,9 +36,13 @@ function updateValues() {
 
 function addNewTodo() {
 
+document.getElementById("todo-name").focus();
+
 if(!inputValidation()) {
     return;
 };
+
+
 
     id++;
     
@@ -63,35 +66,31 @@ if(!inputValidation()) {
 
     //5. call updateHtmlTable function
     updateHtmlTable();
-
-    document.getElementById("todo-name").focus();
-    
+  
     updateValues(); 
     clearForm();
 }
 
 function clearForm() {
     document.getElementById("todo-name").value = "";
-    document.getElementById("todo-description").value = ""
+    document.getElementById("todo-description").value = "";
 }
 
 function inputValidation() {
-    document.getElementById("error").innerHTML = ""
+    document.getElementById("error").innerHTML = "";
 
     if ( isValid("todo-name") ) {
+        document.getElementById("error").innerHTML = "<h3>New ToDo added!</h3>"
         return true;
     };
 
-    if ( !isValid("todo-description") ) {
+    if ( !isValid("todo-description") && !isValid("todo-name") ) {
         document.getElementById("error").innerHTML = "<h3>Please add new ToDo!</h3>"
         };
     
-    if ( !isValid("todo-name") ) {
+    if ( !isValid("todo-name") && isValid("todo-description") ) {
         document.getElementById("error").innerHTML = "<h3>Please add ToDo name!</h3>"
         };
-
-        console.log("nera apraso");
-
 }
 
 function isValid(id) {
@@ -108,7 +107,7 @@ function inputValidationV2() {
         return true;
     };
 
-    if ( isValid("todo-description") && !isValid("todo-name") ) {
+    if ( !isValid("todo-description") && !isValid("todo-name") ) {
         document.getElementById("error").innerHTML += "<h1>Please add new ToDo!</h1>"
         return false;
     };
@@ -133,3 +132,14 @@ function deleteEntry(id) {
 
     updateHtmlTable();
 }
+
+// function activateDeleteBtn() {
+//     let deleteBtns = document.getElementsByClassName("delete");
+
+//     for (let i = 0; i < deleteBtns.length; i++) {
+//         const btn = deleteBtns[i];
+//         btn.addEventListener("click",function(){
+//         console.log(btn.id)
+//         })
+//     };
+// }
