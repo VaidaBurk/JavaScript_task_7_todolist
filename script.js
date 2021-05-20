@@ -16,6 +16,7 @@ function updateHtmlTable() {
             <td>${todo.description}</td>
             <td>
                 <div class="delete btn btn-danger" onclick="deleteEntry(${todo.id});">delete</div>
+                <div class="delete btn btn-danger" onclick="deleteEntry(${todo.id});">delete</div>
             </td>
         </tr>`;
         // 5 - merge generated table
