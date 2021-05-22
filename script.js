@@ -1,7 +1,25 @@
 
-let todos = [];
+let todos = [
+    {
+        id: 1,
+        name: "Study",
+        description: "Java Script, Saturday 8:00 - 13:00"
+    },
+    {
+        id: 2,
+        name: "Go downtown",
+        description: "When studying is done"
+    },
+    {
+        id: 3,
+        name: "Study again",
+        description: "Sunday"
+    }
+];
 
-let id = 0;
+updateHtmlTable()
+
+let id = 3;
 
 function updateHtmlTable() {
 
@@ -17,6 +35,7 @@ function updateHtmlTable() {
             <td>
                 <div class="edit btn btn-outline-warning btn-sm" id="edit-${todo.id}">Edit</div>
                 <div class="delete btn btn-outline-danger btn-sm" onclick="deleteEntry(${todo.id});">Delete</div>
+                <div class="delete btn btn-outline-success btn-sm" onclick="markDone(${todo.id});">Done</div>
             </td>
         </tr>`;
 
@@ -36,13 +55,11 @@ function updateValues() {
 
 function addNewTodo() {
 
-document.getElementById("todo-name").focus();
+    document.getElementById("todo-name").focus();
 
-if(!inputValidation()) {
-    return;
-};
-
-
+        if(!inputValidation()) {
+        return;
+    };
 
     id++;
     
@@ -71,12 +88,12 @@ if(!inputValidation()) {
     clearForm();
 }
 
+
 function clearForm() {
     document.getElementById("todo-name").value = "";
-    document.getElementById("todo-description").value = "";
-    // document.getElementById("error").classList.remove("success");
-   
+    document.getElementById("todo-description").value = "";   
 }
+
 
 function inputValidation() {
     document.getElementById("name-error-msg").innerHTML = "";
@@ -93,28 +110,28 @@ function inputValidation() {
         document.getElementById("description-error-msg").classList.add("alert", "alert-danger");
         document.getElementById("name-error-msg").classList.add("alert", "alert-danger");
         return false;
-        };
+    };
     
     if ( !isValid("todo-name") && isValid("todo-description") ) {
         document.getElementById("name-error-msg").innerHTML = "<div>Please enter ToDo name!</div>";
         document.getElementById("name-error-msg").classList.add("alert", "alert-warning");
         return false;
-        };
+    };
 
-        if ( isValid("todo-name") ) {
-            document.getElementById("success-message").innerHTML = "<div>New ToDo successfully added!</div>";
-            document.getElementById("success-message").classList.add("alert", "alert-success");
-            return true;
-        };
-    
-}
+    if ( isValid("todo-name") ) {
+        document.getElementById("success-message").innerHTML = "<div>New ToDo successfully added!</div>";
+        document.getElementById("success-message").classList.add("alert", "alert-success");
+        return true;
+    };  
+};
+
 
 function isValid(id) {
     if (document.getElementById(id).value == "") {
         return false;
     };
     return true;
-}
+};
 
 
 function deleteEntry(id) {
@@ -123,12 +140,27 @@ function deleteEntry(id) {
         const todo = todos[i];
         if (todo.id == id){
             todos.splice(i, 1);
-        }       
-    }
+        };    
+    };
+
     updateHtmlTable();
-}
+    document.getElementById("success-message").innerHTML = "<div>ToDo successfully removed!</div>";
+    document.getElementById("success-message").classList.add("alert", "alert-success");
+};
 
+function markDone(id) {
+    console.log(id);
+    for (let i = 0; i < todos.length; i++) {
+        const todo = todos[i];
+        if (todo.id == id){
+            todos.splice(i, 1);
+        };    
+    };
 
+    updateHtmlTable();
+    document.getElementById("success-message").innerHTML = "<div>ToDo finished!</div>";
+    document.getElementById("success-message").classList.add("alert", "alert-success");
+};
 
 
 function activateEditButtons() {
@@ -136,40 +168,54 @@ function activateEditButtons() {
     let edittingButtons = document.getElementsByClassName("edit");
 
     for (let i = 0; i < edittingButtons.length; i++) {
+        
         let edittingBtn = edittingButtons[i];
+        
         edittingBtn.addEventListener("click",function(){
             console.log(edittingBtn.id);
             editEntry(edittingBtn.id)
-        })
+            }
+        );
     };   
-}
+};
+
 
 function editEntry(id) {
     for (let i = 0; i < todos.length; i++) {
         if (`edit-${todos[i].id}` == id){
             console.log(todos[i]);
             activateEditMode(todos[i]);
-        }      
-    }
-}
+        };      
+    };
+};
+
 
 function activateEditMode(todo) {
+
     document.getElementById("todo-name").value = todo.name;
     document.getElementById("todo-description").value = todo.description;
     document.getElementById("todo-id").value = todo.id;
 
     document.getElementById("edit-btn").style = "";
-}
+    document.getElementById("add-btn").style = "dislpay: none";
+};
+
 
 function editTodo() {
-    var todoId = document.getElementById("todo-id").value;
 
-    var todo = todos.filter(todo => todo.id == todoId)[0]
+    var todoId = document.getElementById("todo-id").value;
+    var todo = todos.filter(todo => todo.id == todoId)[0];
 
     todo.name = document.getElementById("todo-name").value;
     todo.description = document.getElementById("todo-description").value;
 
+    if(!inputValidation()) {
+        return;
+    }
+
     updateHtmlTable();
     clearForm();
     document.getElementById("edit-btn").style = "display: none";
-}
+    document.getElementById("success-message").innerHTML = "<div>ToDo successfully updated!</div>";
+    document.getElementById("success-message").classList.add("alert", "alert-success");
+};
