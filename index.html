@@ -10,24 +10,28 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center mb-5 mt-3">ToDo List</h1>
+        <h1 class="text-center mb-5 mt-3">Things To Do</h1>
         <div class="row">
             <!-- form -->
             <div class="col-md">
-                <div id="error"></div>
+                <div id="success-message"></div>
                 <form>
                     <!-- name -->
                     <div class="mb-3">
                         <label class="form-label" >ToDo Name</label>
+                        <div id="name-error-msg"></div>
                         <input type="text" id="todo-name" class="form-control" placeholder="Name">
                     </div>
                     <!-- description -->
                     <div class="mb-3">
                         <label class="form-label">Description</label>
+                        <div id="description-error-msg"></div>
                         <textarea class="form-control" id="todo-description" placeholder="Insert description..." ></textarea>
                     </div> 
                     <!-- button -->
-                    <button type="button" class="btn btn-primary" onclick="addNewTodo();">Add</button>
+                    <input type="hidden" id="todo-id">
+                    <button onclick="addNewTodo();" type="button" class="btn btn-outline-primary">Add</button>
+                    <button onclick="editTodo();" type="button" class="btn btn-outline-success" id="edit-btn" style="display: none;">Save</button>
                 </form>
             </div>
             <div class="col-md">
@@ -38,7 +42,7 @@
                         <tr>
                             <th scope="col">ToDo Name</th>
                             <th scope="col">Description</th>
-                            <th scope="col" class="delete">Delete</th>
+                            <th scope="col" class="delete"></th> 
                         </tr>
                     </thead>
                     <!-- toDos table -->
