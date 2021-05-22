@@ -1,30 +1,38 @@
-
-let todos = [
-    {
-        id: 1,
-        name: "Study",
-        description: "Java Script, Saturday 8:00 - 13:00"
-    },
-    {
-        id: 2,
-        name: "Go downtown",
-        description: "When studying is done"
-    },
-    {
-        id: 3,
-        name: "Study again",
-        description: "Sunday"
-    }
-];
+// sessionStorage.setItem("data",
+//     JSON.stringify(
+//         [
+//             {
+//                 id: 1,
+//                 name: "Study",
+//                 description: "Java Script, Saturday 8:00 - 13:00"
+//             },
+//             {
+//                 id: 2,
+//                 name: "Go downtown",
+//                 description: "When studying is done"
+//             },
+//             {
+//                 id: 3,
+//                 name: "Study again",
+//                 description: "Sunday"
+//             }
+//         ] 
+//     ) 
+// );
 
 updateHtmlTable()
 
 let id = 3;
-
 function updateHtmlTable() {
 
     // 3 - foreach todo list
     let generatedHtml = "";
+    let todos = JSON.parse( sessionStorage.getItem("data") );
+    if (todos === null) {
+        sessionStorage.setItem("data", JSON.stringify( [] ));
+        return;
+    }
+
     for (let i = 0; i < todos.length; i++) {
         const todo = todos[i];
         // 4 - generate row
@@ -79,7 +87,9 @@ function addNewTodo() {
     }
     
     //4. add new object to array
+    let todos = JSON.parse( sessionStorage.getItem("data") );
     todos.push(todo);
+    sessionStorage.setItem("data", JSON.stringify(todos));
 
     //5. call updateHtmlTable function
     updateHtmlTable();
